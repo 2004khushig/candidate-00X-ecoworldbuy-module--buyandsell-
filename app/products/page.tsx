@@ -1,25 +1,43 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useCart } from "../../context/CartContext";
+
+interface Product {
+  id: string;
+  title: string;
+  image: string;
+  price_cents: number;
+}
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     fetch("/api/printful-products")
-      .then(res => res.json())
-      .then(data => setProducts(data));
+      .then((res) => res.json())
+      .then(setProducts);
   }, []);
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-heading mb-6 text-primary">EcoWorld Products</h1>
-      <div className="grid md:grid-cols-2 gap-6">
-        {products.map((product: any) => (
-          <div key={product.id} className="bg-neutral-100 rounded-card p-4 shadow-sm hover:shadow-md transition">
-            <img src={product.image} alt={product.title} className="rounded-card w-full h-48 object-cover" />
-            <h2 className="mt-4 text-lg font-heading">{product.title}</h2>
-            <p className="text-body mt-1">€{(product.price_cents / 100).toFixed(2)}</p>
-            <button className="mt-3 border border-primary text-primary px-4 py-2 rounded-full hover:bg-primary hover:text-white transition">Add to Cart</button>
+      <h1 className="text-3xl font-bold mb-6 text-green-700 font-['Montserrat']">All Products</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {products.map((product) => (
+          <div key={product.id} className="border rounded-xl p-4 shadow bg-white transition hover:scale-[1.02]">
+            <img
+              src={product.image}
+              alt={product.title}
+              className="w-full h-64 object-contain bg-gray-50 rounded-lg p-4"
+            />
+            <h2 className="text-xl font-semibold mt-4">{product.title}</h2>
+            <p className="text-lg font-medium text-green-700">₹{(product.price_cents).toFixed(0)}</p>
+            <button
+              onClick={() => addToCart(product)}
+              className="mt-3 px-4 py-2 rounded-full border border-green-600 text-green-600 hover:bg-green-600 hover:text-white transition"
+            >
+              Add to Cart
+            </button>
           </div>
         ))}
       </div>
