@@ -1,4 +1,4 @@
-Vercel Link- [https://ecoworldbuy.vercel.app/]
+Vercel Link- https://ecoworldbuy.vercel.app/
 # EcoWorldBuy
 
 EcoWorldBuy is a Next.js e-commerce demo focused on sustainability. Users can browse eco-friendly products and experience a Stripe-powered checkout flow.
